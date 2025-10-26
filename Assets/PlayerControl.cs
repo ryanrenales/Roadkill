@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    float base_speed = 3.5f; // base speed
+    public float base_speed = 5f; // base speed
     private Rigidbody player; // player rigidbody object
     private Vector3 movement; // movement input variable
 
@@ -29,7 +29,7 @@ public class PlayerControl : MonoBehaviour
     // fixed update
     private void FixedUpdate()
     {
-        player.MovePosition(player.position // player position movement calculation
+        player.MovePosition(player.position // player position movement calculation per frame
             + movement  
             * base_speed 
             * Time.fixedDeltaTime);
