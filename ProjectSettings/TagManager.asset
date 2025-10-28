@@ -9,6 +9,8 @@ TagManager:
   - HeavyItem
   - House
   - Car
+  - PowerUp
+  - Play
   layers:
   - Default
   - TransparentFX
