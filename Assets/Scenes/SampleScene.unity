@@ -221,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 76196192}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.010000001, z: -0.25}
+  m_LocalPosition: {x: 0, y: 0, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 0.015}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -803,16 +803,16 @@ MonoBehaviour:
   - {fileID: 1135122145}
   - {fileID: 1471448472}
   interval: 1.5
-  variance: 0.5
+  variance: 0.7
   minSpeed: 5
   maxSpeed: 10
   minDifficultyInterval: 5
   maxDifficultyInterval: 10
-  minSpeedIncrement: 0.1
+  minSpeedIncrement: 0.3
   maxSpeedIncrement: 0.7
   minIntervalDecrement: 0.1
-  maxIntervalDecrement: 0.2
-  minInterval: 0.8
+  maxIntervalDecrement: 0.3
+  minInterval: 0.5
 --- !u!1 &603798059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,7 +2117,7 @@ MonoBehaviour:
   currentStamina: 100
   sprintSpeed: 8
   staminaDrain: 20
-  staminaRegen: 15
+  staminaRegen: 10
   staminaBar: {fileID: 1734147377}
 --- !u!114 &1125225803
 MonoBehaviour:
@@ -3170,7 +3170,7 @@ Transform:
   m_GameObject: {fileID: 1564892259}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.01, z: 0.25}
+  m_LocalPosition: {x: 0, y: 0, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 0.015}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3776,11 +3776,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupPrefab: {fileID: 4204089470153209593, guid: 38c79ffc6b741fc48bdf18fc7df53b3f, type: 3}
-  minX: -10
-  maxX: 10
+  minX: -12
+  maxX: 12
   zStart: -4
   zEnd: 4
-  spawnInterval: 25
+  spawnInterval: 20
 --- !u!4 &1812534539
 Transform:
   m_ObjectHideFlags: 0
