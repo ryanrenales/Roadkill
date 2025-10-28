@@ -19,10 +19,13 @@ public class PlayerControl : MonoBehaviour
 
     private Vector3 velocity;
 
+    Animator anim;
+
     // start
     void Start()
     {
-        
+        anim = GetComponentInChildren<Animator>();
+
         player = GetComponent<Rigidbody>(); // player rigidbody component
         currentStamina = maxStamina;
         if (staminaBar != null)
@@ -54,6 +57,14 @@ public class PlayerControl : MonoBehaviour
         {
             staminaBar.value = currentStamina;
         }
+
+        if (velocity.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(velocity);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+        }
+
+        anim.SetFloat("Vert", velocity.magnitude);
     }
 
     // fixed update
@@ -62,6 +73,11 @@ public class PlayerControl : MonoBehaviour
         player.MovePosition(player.position // player position movement calculation per frame  
             + velocity 
             * Time.fixedDeltaTime);
+
+        Vector3 pos = player.position;
+        pos.x = Mathf.Clamp(pos.x, -12f, 12f);
+        pos.z = Mathf.Clamp(pos.z, -10f, 5.8f);
+        player.position = pos;
     }
 
     private void OnCollisionEnter(Collision collision)
