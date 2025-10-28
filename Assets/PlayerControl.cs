@@ -34,4 +34,15 @@ public class PlayerControl : MonoBehaviour
             * base_speed 
             * Time.fixedDeltaTime);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Car"))
+        {
+            //later add audio
+            //AudioSource.PlayClipAtPoint(deathSound, transform.position);
+
+            ScoreScript.Instance.GameOver();
+        }
+    }
 }
