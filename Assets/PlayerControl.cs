@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody player; // player rigidbody object
     private Vector3 movement; // movement input variable
 
+    // variables for the stamina mechanic
     public float maxStamina = 100f;
     public float currentStamina;
     public float sprintSpeed = 8f;
@@ -19,10 +20,11 @@ public class PlayerControl : MonoBehaviour
     public float staminaRegen = 15f;
     public Slider staminaBar;
 
-    private Vector3 velocity;
+    private Vector3 velocity; // current velocity
 
-    Animator anim;
+    Animator anim; // animation for player
 
+    // audio variables for walking
     private AudioSource audioSource;
     public AudioClip footstep;
     public float stepInterval = 0.4f;
@@ -31,28 +33,30 @@ public class PlayerControl : MonoBehaviour
     // start
     void Start()
     {
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<Animator>(); // animation component for the chicken
 
         player = GetComponent<Rigidbody>(); // player rigidbody component
-        currentStamina = maxStamina;
+        currentStamina = maxStamina; // sets max stamina
         if (staminaBar != null)
         {
             staminaBar.value = currentStamina;
         }
 
-        audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>(); // audio source component
     }
 
     // update
     void Update()
     {
-
+        // raw axis direction input for direction
         Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        // if left shift is down, sprinting would be true
         bool sprinting = Input.GetKey(KeyCode.LeftShift) && currentStamina > 0f && direction.magnitude > 0f;
-        float speed = sprinting ? sprintSpeed : base_speed;
+        float speed = sprinting ? sprintSpeed : base_speed; // if sprinting, sets speed to sprint speed
 
-        velocity = direction * speed;
+        velocity = direction * speed; // velocity calculation
 
+        // if sprinting, drain stamina overtime, else regen stamina if not sprinting and standing still
         if (sprinting)
         {
             currentStamina = Mathf.Max(currentStamina - staminaDrain * Time.deltaTime, 0f);
@@ -67,11 +71,14 @@ public class PlayerControl : MonoBehaviour
             staminaBar.value = currentStamina;
         }
 
+        // if moving, player rotates in direction, and walking audio is played while moving to each footstep
         if (velocity.magnitude > 0.1f)
         {
+            // player rotation
             Quaternion targetRotation = Quaternion.LookRotation(velocity);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
 
+            // audio for walking timed and calculated
             stepTimer -= Time.deltaTime;
             if (stepTimer <= 0f) 
             {
@@ -84,7 +91,7 @@ public class PlayerControl : MonoBehaviour
             stepTimer = 0f;
         }
 
-            anim.SetFloat("Vert", velocity.magnitude);
+            anim.SetFloat("Vert", velocity.magnitude); // sets animation
 
     }
 
@@ -95,19 +102,18 @@ public class PlayerControl : MonoBehaviour
             + velocity 
             * Time.fixedDeltaTime);
 
+        // clamps player position to stay in screen
         Vector3 pos = player.position;
         pos.x = Mathf.Clamp(pos.x, -12f, 12f);
         pos.z = Mathf.Clamp(pos.z, -10f, 5.8f);
         player.position = pos;
     }
 
+    // game over when player collides with any cars
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Car"))
         {
-            //later add audio
-            //AudioSource.PlayClipAtPoint(deathSound, transform.position);
-
             ScoreScript.Instance.GameOver();
         }
     }

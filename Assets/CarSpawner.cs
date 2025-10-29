@@ -13,21 +13,21 @@ public class CarSpawner : MonoBehaviour
     public float minSpeed = 5f; // minimum speed
     public float maxSpeed = 10f; // maximum speed
     private float spawnTime; // spawn time variable for the next car spawn
-    private bool isSlowed = false;
-    private float slowTimer = 0f;
-    private float difficultyTimer = 0f;
-    private float currDifficultyInterval;
+    private bool isSlowed = false; // bool for powerup
+    private float slowTimer = 0f; // timer for powerup
+    private float difficultyTimer = 0f; // timer to increase difficulty
+    private float currDifficultyInterval; // current difficulty interval
 
-    public float minDifficultyInterval = 5f;
-    public float maxDifficultyInterval = 10f;
+    public float minDifficultyInterval = 5f; // minimum difficulty interval
+    public float maxDifficultyInterval = 10f; // maximum diffiulty interval
 
-    public float minSpeedIncrement = 0.1f;
-    public float maxSpeedIncrement = 0.7f;
+    public float minSpeedIncrement = 0.1f; // minimum speed increment value
+    public float maxSpeedIncrement = 0.7f; // maximum speed increment value
 
-    public float minIntervalDecrement = 0.1f;
-    public float maxIntervalDecrement = 0.2f;
+    public float minIntervalDecrement = 0.1f; // minimum interval decrement value
+    public float maxIntervalDecrement = 0.2f; // maximum interval decrement value
 
-    public float minInterval = 0.8f;
+    public float minInterval = 0.8f; // minimum interval
 
 
 
@@ -35,14 +35,12 @@ public class CarSpawner : MonoBehaviour
     void Start()
     {
         spawnTime = Time.time + interval + Random.Range(-variance, variance); // calculates next spawn time
-        currDifficultyInterval = Random.Range(minDifficultyInterval, maxDifficultyInterval);
+        currDifficultyInterval = Random.Range(minDifficultyInterval, maxDifficultyInterval); // sets currently difficulty interval at random
     }
 
     // Update
     void Update()
     {
-
-        
 
         if (Time.time >= spawnTime) // if it's time to spawn a car
         {
@@ -52,6 +50,7 @@ public class CarSpawner : MonoBehaviour
             spawnTime = Time.time + interval + Random.Range(-variance, variance); // calculates next spawn time
         }
 
+        // if powerup is equipped, cars are slowed until timer is up
         if (isSlowed)
         {
             slowTimer -= Time.deltaTime;
@@ -63,17 +62,21 @@ public class CarSpawner : MonoBehaviour
             }
         }
 
-        difficultyTimer = Time.deltaTime;
+        difficultyTimer = Time.deltaTime; // set difficulty timer
 
+        // if timer is greater or equal to current difficulty interval, difficulty scales
         if(difficultyTimer >= currDifficultyInterval)
         {
+            // random speed increment increases
             float speedIncrement = Random.Range(minSpeedIncrement, maxSpeedIncrement);
             minSpeed += speedIncrement;
             maxSpeed += speedIncrement;
 
+            // random interval decrement decreases
             float intervalDecrement = Random.Range(minIntervalDecrement, maxIntervalDecrement);
             interval = Mathf.Max(minInterval, interval - intervalDecrement);
 
+            // timer set back to 0 and new random difficulty interval is found
             difficultyTimer = 0f;
             currDifficultyInterval = Random.Range(minDifficultyInterval, maxDifficultyInterval);
         }
@@ -108,8 +111,10 @@ public class CarSpawner : MonoBehaviour
         }
     }
 
+    // slows traffic for set duration
     public void SlowTraffic(float duration)
     {
+        // if it's not slowed yet, it will slow cars by 30%
         if (!isSlowed) 
         {
             minSpeed *= 0.7f;

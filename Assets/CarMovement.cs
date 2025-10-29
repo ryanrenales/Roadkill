@@ -10,7 +10,7 @@ public class CarMovement : MonoBehaviour
     public float RoadLimit = 10f; // end of screen limit to destroy object
     private Rigidbody car; // car rigidbody object
 
-    private AudioSource engine;
+    private AudioSource engine; // engine audio
 
 
     // start
@@ -18,11 +18,11 @@ public class CarMovement : MonoBehaviour
     {
 
         car = GetComponent<Rigidbody>(); // car rigidbody component
-        engine = GetComponent<AudioSource>();
+        engine = GetComponent<AudioSource>(); // audio source component
         if (engine != null)
         {
-            engine.loop = true;
-            engine.Play();
+            engine.loop = true; // plays engine sound on loop with the car
+            engine.Play(); // plays sound
         }
     }
 
@@ -40,6 +40,7 @@ public class CarMovement : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // if engine and car exists, engine sound is played with pitch adjustments according to velocity
         if (engine != null && car != null) 
         { 
             float factor = car.velocity.magnitude / 10f;
