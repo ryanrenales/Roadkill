@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class PlayerControl : MonoBehaviour
 {
@@ -21,6 +23,11 @@ public class PlayerControl : MonoBehaviour
 
     Animator anim;
 
+    private AudioSource audioSource;
+    public AudioClip footstep;
+    public float stepInterval = 0.4f;
+    private float stepTimer = 0f;
+
     // start
     void Start()
     {
@@ -32,6 +39,8 @@ public class PlayerControl : MonoBehaviour
         {
             staminaBar.value = currentStamina;
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // update
@@ -62,9 +71,21 @@ public class PlayerControl : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.LookRotation(velocity);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+
+            stepTimer -= Time.deltaTime;
+            if (stepTimer <= 0f) 
+            {
+                audioSource.PlayOneShot(footstep);
+                stepTimer = stepInterval / (velocity.magnitude / base_speed);
+            }
+        }
+        else
+        {
+            stepTimer = 0f;
         }
 
-        anim.SetFloat("Vert", velocity.magnitude);
+            anim.SetFloat("Vert", velocity.magnitude);
+
     }
 
     // fixed update

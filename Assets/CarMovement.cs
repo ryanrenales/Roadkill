@@ -10,12 +10,20 @@ public class CarMovement : MonoBehaviour
     public float RoadLimit = 10f; // end of screen limit to destroy object
     private Rigidbody car; // car rigidbody object
 
+    private AudioSource engine;
+
 
     // start
     void Start()
     {
 
         car = GetComponent<Rigidbody>(); // car rigidbody component
+        engine = GetComponent<AudioSource>();
+        if (engine != null)
+        {
+            engine.loop = true;
+            engine.Play();
+        }
     }
 
     // Update is called once per frame
@@ -30,6 +38,12 @@ public class CarMovement : MonoBehaviour
         if (Mathf.Abs(transform.position.x) > RoadLimit)
         {
             Destroy(gameObject);
+        }
+
+        if (engine != null && car != null) 
+        { 
+            float factor = car.velocity.magnitude / 10f;
+            engine.pitch = Mathf.Clamp(0.8f + factor, 0.8f, 1.5f);
         }
     }
 }
