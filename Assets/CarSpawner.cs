@@ -57,8 +57,8 @@ public class CarSpawner : MonoBehaviour
             slowTimer -= Time.deltaTime;
             if (slowTimer <= 0f)
             {
-                minSpeed *= 2f;
-                maxSpeed *= 2f;
+                minSpeed *= 1.42857f;
+                maxSpeed *= 1.42857f;
                 isSlowed = false;
             }
         }
@@ -112,8 +112,8 @@ public class CarSpawner : MonoBehaviour
     {
         if (!isSlowed) 
         {
-            minSpeed *= 0.45f;
-            maxSpeed *= 0.45f;
+            minSpeed *= 0.7f;
+            maxSpeed *= 0.7f;
             slowTimer = duration;
             isSlowed = true;
         }

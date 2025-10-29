@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   base_speed: 5
   direction: {x: 0, y: 0, z: 1}
-  RoadLimit: 17
+  RoadLimit: 16
 --- !u!65 &-5189195777056994970
 BoxCollider:
   m_ObjectHideFlags: 0
